@@ -12,61 +12,97 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       min-height: 100vh;
-      padding: 20px;
+      padding: 24px 16px;
     }
     .table-felt {
-      background: rgba(0, 0, 0, 0.35);
+      background: rgba(0, 0, 0, 0.4);
       border: 4px solid #d4af37;
       border-radius: 20px;
-      padding: 30px;
-      max-width: 650px;
+      padding: 28px;
+      max-width: 720px;
       width: 100%;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       text-align: center;
     }
-    h1 { font-size: 24px; letter-spacing: 2px; text-transform: uppercase; color: #d4af37; margin-bottom: 20px; }
-    .hand-container { margin: 15px 0; min-height: 110px; }
-    .hand-title { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; }
-    .score-badge { font-size: 16px; font-weight: bold; margin-left: 8px; color: #f1f5f9; }
-    .cards-wrapper { display: flex; justify-content: center; gap: 10px; margin-top: 10px; min-height: 80px; }
-    .card {
-      background: #ffffff;
-      color: #1e293b;
-      width: 58px;
-      height: 80px;
-      border-radius: 6px;
+    h1 { font-size: 24px; letter-spacing: 2px; text-transform: uppercase; color: #d4af37; margin-bottom: 12px; }
+    
+    /* Bankroll & Bet Bar */
+    .finance-bar {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 6px;
-      font-weight: bold;
-      font-size: 13px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      justify-content: space-around;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+    .finance-item { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; }
+    .finance-val { font-size: 20px; font-weight: bold; color: #38bdf8; }
+    .finance-val.gold { color: #facc15; }
+
+    /* Chips */
+    .chip-group { display: flex; justify-content: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .chip {
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 2px dashed #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold; font-size: 13px; cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+      transition: transform 0.1s ease;
+      user-select: none;
+    }
+    .chip:hover { transform: scale(1.08); }
+    .chip-10 { background: #2563eb; color: #fff; }
+    .chip-25 { background: #16a34a; color: #fff; }
+    .chip-50 { background: #ea580c; color: #fff; }
+    .chip-100 { background: #0f172a; color: #facc15; border-color: #facc15; }
+    .chip-clear { background: #475569; border: none; width: auto; padding: 0 14px; border-radius: 24px; color: #e2e8f0; font-size: 11px; }
+
+    /* Hands */
+    .hand-container { margin: 10px 0; min-height: 100px; }
+    .hand-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; }
+    .score-badge { font-size: 15px; font-weight: bold; margin-left: 6px; color: #f1f5f9; }
+    .cards-wrapper { display: flex; justify-content: center; gap: 8px; margin-top: 8px; min-height: 75px; }
+    .card {
+      background: #ffffff; color: #1e293b; width: 54px; height: 75px;
+      border-radius: 6px; display: flex; flex-direction: column;
+      justify-content: space-between; padding: 5px; font-weight: bold;
+      font-size: 13px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     }
     .card.red { color: #dc2626; }
     .card.hidden {
       background: repeating-linear-gradient(45deg, #1e3a8a, #1e3a8a 6px, #172554 6px, #172554 12px);
       border: 2px solid #fff;
     }
-    .status-banner { font-size: 18px; font-weight: 700; height: 30px; margin: 15px 0; color: #facc15; }
-    .btn-group { display: flex; justify-content: center; gap: 12px; margin-top: 15px; }
-    button {
-      background: #d4af37;
-      color: #0f172a;
-      border: none;
-      padding: 10px 22px;
-      font-size: 14px;
-      font-weight: 700;
-      border-radius: 6px;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: all 0.15s ease;
+
+    .status-banner { font-size: 17px; font-weight: 700; height: 26px; margin: 12px 0; color: #facc15; }
+    .btn-group { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+    button.action-btn {
+      background: #d4af37; color: #0f172a; border: none; padding: 10px 22px;
+      font-size: 13px; font-weight: 700; border-radius: 6px; cursor: pointer;
+      text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.15s ease;
     }
-    button:hover:not(:disabled) { background: #facc15; transform: translateY(-1px); }
-    button:disabled { background: #64748b; color: #94a3b8; cursor: not-allowed; transform: none; }
+    button.action-btn:hover:not(:disabled) { background: #facc15; }
+    button.action-btn:disabled { background: #64748b; color: #94a3b8; cursor: not-allowed; }
+
+    /* Database / History Table */
+    .history-card {
+      margin-top: 24px; max-width: 720px; width: 100%;
+      background: #0f172a; border: 1px solid #334155; border-radius: 12px;
+      padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .history-header h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; }
+    .btn-clear-db { background: transparent; border: 1px solid #475569; color: #94a3b8; font-size: 11px; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
+    .btn-clear-db:hover { color: #f87171; border-color: #f87171; }
+    .table-scroll { max-height: 200px; overflow-y: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+    th { color: #64748b; font-weight: 600; padding: 6px 8px; border-bottom: 1px solid #334155; }
+    td { padding: 8px; border-bottom: 1px solid #1e293b; color: #e2e8f0; }
+    .badge-win { color: #4ade80; font-weight: bold; }
+    .badge-loss { color: #f87171; font-weight: bold; }
+    .badge-push { color: #94a3b8; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -74,12 +110,27 @@
   <div class="table-felt">
     <h1>Blackjack</h1>
 
+    <!-- Financial Bar -->
+    <div class="finance-bar">
+      <div class="finance-item">Bankroll: <div id="bankroll-val" class="finance-val gold">$1,000</div></div>
+      <div class="finance-item">Active Bet: <div id="bet-val" class="finance-val">$0</div></div>
+    </div>
+
+    <!-- Chip Selector -->
+    <div class="chip-group" id="chip-controls">
+      <div class="chip chip-10" onclick="addBet(10)">$10</div>
+      <div class="chip chip-25" onclick="addBet(25)">$25</div>
+      <div class="chip chip-50" onclick="addBet(50)">$50</div>
+      <div class="chip chip-100" onclick="addBet(100)">$100</div>
+      <div class="chip chip-clear" onclick="clearBet()">Clear Bet</div>
+    </div>
+
     <div class="hand-container">
       <div class="hand-title">Dealer <span id="dealer-score" class="score-badge">-</span></div>
       <div id="dealer-cards" class="cards-wrapper"></div>
     </div>
 
-    <div class="status-banner" id="game-status">Press Deal to Play</div>
+    <div class="status-banner" id="game-status">Select your bet and click Deal</div>
 
     <div class="hand-container">
       <div class="hand-title">Player <span id="player-score" class="score-badge">-</span></div>
@@ -87,9 +138,35 @@
     </div>
 
     <div class="btn-group">
-      <button id="deal-btn" onclick="startGame()">Deal</button>
-      <button id="hit-btn" onclick="hit()" disabled>Hit</button>
-      <button id="stand-btn" onclick="stand()" disabled>Stand</button>
+      <button class="action-btn" id="deal-btn" onclick="startGame()">Deal</button>
+      <button class="action-btn" id="hit-btn" onclick="hit()" disabled>Hit</button>
+      <button class="action-btn" id="stand-btn" onclick="stand()" disabled>Stand</button>
+    </div>
+  </div>
+
+  <!-- Persistent Database History View -->
+  <div class="history-card">
+    <div class="history-header">
+      <h2>Hand History & Database Log</h2>
+      <button class="btn-clear-db" onclick="clearDatabase()">Clear DB</button>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Bet</th>
+            <th>Player</th>
+            <th>Dealer</th>
+            <th>Result</th>
+            <th>Payout</th>
+            <th>Bankroll</th>
+          </tr>
+        </thead>
+        <tbody id="history-rows">
+          <!-- Populated from Persistent Database -->
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -98,6 +175,84 @@
     const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
     let deck = [], playerHand = [], dealerHand = [];
     let inProgress = false;
+    let bankroll = 1000;
+    let currentBet = 0;
+
+    // Database Engine (Persistent Local Storage)
+    function loadDatabase() {
+      const savedBankroll = localStorage.getItem('bj_bankroll');
+      if (savedBankroll !== null) {
+        bankroll = parseInt(savedBankroll);
+      }
+      renderBankroll();
+      renderHistoryTable();
+    }
+
+    function saveGameToDB(entry) {
+      let history = JSON.parse(localStorage.getItem('bj_history') || '[]');
+      history.unshift(entry); // Prepend latest hand
+      localStorage.setItem('bj_history', JSON.stringify(history));
+      localStorage.setItem('bj_bankroll', bankroll.toString());
+      renderHistoryTable();
+    }
+
+    function clearDatabase() {
+      if (confirm("Reset database logs and reset bankroll to $1,000?")) {
+        localStorage.removeItem('bj_history');
+        localStorage.removeItem('bj_bankroll');
+        bankroll = 1000;
+        currentBet = 0;
+        renderBankroll();
+        renderHistoryTable();
+      }
+    }
+
+    function renderHistoryTable() {
+      const history = JSON.parse(localStorage.getItem('bj_history') || '[]');
+      const tbody = document.getElementById('history-rows');
+      tbody.innerHTML = '';
+      if (history.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#64748b;">No saved hands in database.</td></tr>';
+        return;
+      }
+      history.slice(0, 50).forEach(h => {
+        const tr = document.createElement('tr');
+        const badgeClass = h.result.includes('Win') || h.result.includes('Blackjack') ? 'badge-win' : (h.result.includes('Push') ? 'badge-push' : 'badge-loss');
+        tr.innerHTML = `
+          <td>${h.time}</td>
+          <td>$${h.bet}</td>
+          <td>${h.playerScore}</td>
+          <td>${h.dealerScore}</td>
+          <td class="${badgeClass}">${h.result}</td>
+          <td class="${badgeClass}">${h.payout >= 0 ? '+' : ''}$${h.payout}</td>
+          <td>$${h.balance}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderBankroll() {
+      document.getElementById('bankroll-val').innerText = `$${bankroll}`;
+      document.getElementById('bet-val').innerText = `$${currentBet}`;
+    }
+
+    function addBet(amount) {
+      if (inProgress) return;
+      if (bankroll >= amount) {
+        bankroll -= amount;
+        currentBet += amount;
+        renderBankroll();
+      } else {
+        alert("Insufficient bankroll!");
+      }
+    }
+
+    function clearBet() {
+      if (inProgress) return;
+      bankroll += currentBet;
+      currentBet = 0;
+      renderBankroll();
+    }
 
     function createDeck() {
       deck = [];
@@ -136,6 +291,10 @@
     }
 
     function startGame() {
+      if (currentBet === 0) {
+        document.getElementById('game-status').innerText = 'Please place a bet first!';
+        return;
+      }
       createDeck();
       playerHand = [deck.pop(), deck.pop()];
       dealerHand = [deck.pop(), deck.pop()];
@@ -149,10 +308,11 @@
       renderCards(playerHand, 'player-cards');
       renderCards(dealerHand, 'dealer-cards', true);
 
-      document.getElementById('player-score').innerText = calculateScore(playerHand);
+      const pScore = calculateScore(playerHand);
+      document.getElementById('player-score').innerText = pScore;
       document.getElementById('dealer-score').innerText = '?';
 
-      if (calculateScore(playerHand) === 21) stand();
+      if (pScore === 21) stand();
     }
 
     function hit() {
@@ -161,7 +321,7 @@
       renderCards(playerHand, 'player-cards');
       const score = calculateScore(playerHand);
       document.getElementById('player-score').innerText = score;
-      if (score > 21) endGame('Bust! Dealer Wins.', false);
+      if (score > 21) endGame('Bust! Dealer Wins.', 'Loss', 0);
     }
 
     function stand() {
@@ -175,21 +335,57 @@
 
       document.getElementById('dealer-score').innerText = dScore;
 
-      if (dScore > 21) endGame('Dealer Busts! You Win!', true);
-      else if (pScore > dScore) endGame('You Win!', true);
-      else if (pScore < dScore) endGame('Dealer Wins.', false);
-      else endGame('Push (Tie).', false);
+      const isPlayerBJ = pScore === 21 && playerHand.length === 2;
+      const isDealerBJ = dScore === 21 && dealerHand.length === 2;
+
+      if (pScore > 21) {
+        endGame('Bust! Dealer Wins.', 'Loss', 0);
+      } else if (dScore > 21) {
+        endGame('Dealer Busts! You Win!', 'Win', currentBet * 2);
+      } else if (isPlayerBJ && !isDealerBJ) {
+        endGame('Blackjack! Pays 3:2!', 'Blackjack', Math.floor(currentBet * 2.5));
+      } else if (pScore > dScore) {
+        endGame('You Win!', 'Win', currentBet * 2);
+      } else if (pScore < dScore) {
+        endGame('Dealer Wins.', 'Loss', 0);
+      } else {
+        endGame('Push (Tie). Bet returned.', 'Push', currentBet);
+      }
     }
 
-    function endGame(msg, won) {
+    function endGame(msg, resultType, payoutAmount) {
       inProgress = false;
       document.getElementById('game-status').innerText = msg;
       document.getElementById('deal-btn').disabled = false;
       document.getElementById('hit-btn').disabled = true;
       document.getElementById('stand-btn').disabled = true;
       renderCards(dealerHand, 'dealer-cards', false);
-      document.getElementById('dealer-score').innerText = calculateScore(dealerHand);
+      
+      const pScore = calculateScore(playerHand);
+      const dScore = calculateScore(dealerHand);
+      document.getElementById('dealer-score').innerText = dScore;
+
+      bankroll += payoutAmount;
+      const netChange = payoutAmount - currentBet;
+
+      // Commit to Database
+      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      saveGameToDB({
+        time: timeStr,
+        bet: currentBet,
+        playerScore: pScore,
+        dealerScore: dScore > 21 ? `${dScore} (Bust)` : dScore,
+        result: resultType,
+        payout: netChange,
+        balance: bankroll
+      });
+
+      currentBet = 0;
+      renderBankroll();
     }
+
+    // Initialize on page load
+    loadDatabase();
   </script>
 </body>
 </html>
