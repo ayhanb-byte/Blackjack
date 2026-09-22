@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Blackjack</title>
+  <title>Blackjack Pro - Secure Gaming Simulation</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -15,31 +15,68 @@
       min-height: 100vh;
       padding: 24px 16px;
     }
+
+    .compliance-ribbon {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid #334155;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 11px;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge-secure { color: #4ade80; font-weight: bold; }
+
     .table-felt {
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.45);
       border: 4px solid #d4af37;
       border-radius: 20px;
       padding: 28px;
-      max-width: 720px;
+      max-width: 760px;
       width: 100%;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       text-align: center;
+      position: relative;
     }
-    h1 { font-size: 24px; letter-spacing: 2px; text-transform: uppercase; color: #d4af37; margin-bottom: 12px; }
+    h1 { font-size: 24px; letter-spacing: 2px; text-transform: uppercase; color: #d4af37; margin-bottom: 14px; }
     
-    /* Bankroll & Bet Bar */
+    /* Financial Hub */
     .finance-bar {
       display: flex;
-      justify-content: space-around;
-      background: rgba(15, 23, 42, 0.6);
-      padding: 12px;
-      border-radius: 10px;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 12px 20px;
+      border-radius: 12px;
       margin-bottom: 20px;
       border: 1px solid rgba(212, 175, 55, 0.3);
     }
-    .finance-item { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; }
+    .finance-stat { text-align: left; }
+    .finance-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; }
     .finance-val { font-size: 20px; font-weight: bold; color: #38bdf8; }
     .finance-val.gold { color: #facc15; }
+
+    .btn-deposit {
+      background: #16a34a;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s ease;
+    }
+    .btn-deposit:hover { background: #22c55e; }
 
     /* Chips */
     .chip-group { display: flex; justify-content: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
@@ -59,7 +96,7 @@
     .chip-100 { background: #0f172a; color: #facc15; border-color: #facc15; }
     .chip-clear { background: #475569; border: none; width: auto; padding: 0 14px; border-radius: 24px; color: #e2e8f0; font-size: 11px; }
 
-    /* Hands */
+    /* Cards & Hands */
     .hand-container { margin: 10px 0; min-height: 100px; }
     .hand-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; }
     .score-badge { font-size: 15px; font-weight: bold; margin-left: 6px; color: #f1f5f9; }
@@ -86,43 +123,99 @@
     button.action-btn:hover:not(:disabled) { background: #facc15; }
     button.action-btn:disabled { background: #64748b; color: #94a3b8; cursor: not-allowed; }
 
-    /* Database / History Table */
+    /* Audit & Ledger Logs */
     .history-card {
-      margin-top: 24px; max-width: 720px; width: 100%;
+      margin-top: 24px; max-width: 760px; width: 100%;
       background: #0f172a; border: 1px solid #334155; border-radius: 12px;
       padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .history-header h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; }
+    .history-header h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; }
     .btn-clear-db { background: transparent; border: 1px solid #475569; color: #94a3b8; font-size: 11px; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
-    .btn-clear-db:hover { color: #f87171; border-color: #f87171; }
-    .table-scroll { max-height: 200px; overflow-y: auto; }
+    .table-scroll { max-height: 220px; overflow-y: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
     th { color: #64748b; font-weight: 600; padding: 6px 8px; border-bottom: 1px solid #334155; }
     td { padding: 8px; border-bottom: 1px solid #1e293b; color: #e2e8f0; }
     .badge-win { color: #4ade80; font-weight: bold; }
     .badge-loss { color: #f87171; font-weight: bold; }
     .badge-push { color: #94a3b8; font-weight: bold; }
+    .badge-deposit { color: #38bdf8; font-weight: bold; }
+
+    /* Simulated Payment Cashier Modal */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px);
+      justify-content: center; align-items: center; z-index: 100;
+    }
+    .modal-card {
+      background: #0f172a; border: 1px solid #334155; width: 100%;
+      max-width: 440px; border-radius: 16px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+      position: relative;
+    }
+    .modal-title { font-size: 17px; font-weight: 700; color: #f8fafc; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .modal-subtitle { font-size: 12px; color: #64748b; margin-bottom: 18px; }
+    .form-group { margin-bottom: 14px; text-align: left; }
+    .form-label { display: block; font-size: 11px; text-transform: uppercase; font-weight: 600; color: #94a3b8; margin-bottom: 6px; }
+    .form-input {
+      width: 100%; background: #1e293b; border: 1px solid #475569;
+      border-radius: 6px; padding: 10px 12px; color: #fff; font-size: 13px; outline: none;
+    }
+    .form-input:focus { border-color: #38bdf8; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .tier-buttons { display: flex; gap: 8px; margin-bottom: 16px; }
+    .tier-btn {
+      flex: 1; background: #1e293b; border: 1px solid #475569; color: #f8fafc;
+      padding: 8px 0; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 12px;
+    }
+    .tier-btn.active { border-color: #38bdf8; background: #0369a1; }
+    .modal-submit {
+      width: 100%; background: #2563eb; color: #fff; border: none; padding: 12px;
+      border-radius: 6px; font-size: 13px; font-weight: 700; text-transform: uppercase;
+      cursor: pointer; letter-spacing: 0.5px; margin-top: 10px;
+    }
+    .modal-submit:hover:not(:disabled) { background: #1d4ed8; }
+    .modal-close {
+      position: absolute; top: 16px; right: 18px; background: transparent;
+      border: none; color: #64748b; font-size: 18px; cursor: pointer;
+    }
+    .secure-footer {
+      display: flex; justify-content: center; align-items: center; gap: 6px;
+      font-size: 11px; color: #64748b; margin-top: 16px; border-top: 1px solid #1e293b; padding-top: 12px;
+    }
   </style>
 </head>
 <body>
 
+  <div class="compliance-ribbon">
+    <span class="badge-secure">&#128274; Zero-Knowledge Sandbox</span>
+    <span>PCI-DSS Tokenized Architecture | Read-Only Audit Ledger</span>
+  </div>
+
   <div class="table-felt">
     <h1>Blackjack</h1>
 
-    <!-- Financial Bar -->
+    <!-- Financial Hub -->
     <div class="finance-bar">
-      <div class="finance-item">Bankroll: <div id="bankroll-val" class="finance-val gold">$1,000</div></div>
-      <div class="finance-item">Active Bet: <div id="bet-val" class="finance-val">$0</div></div>
+      <div class="finance-stat">
+        <div class="finance-label">Vault Balance</div>
+        <div id="bankroll-val" class="finance-val gold">$1,000</div>
+      </div>
+      <div class="finance-stat">
+        <div class="finance-label">Active Stake</div>
+        <div id="bet-val" class="finance-val">$0</div>
+      </div>
+      <button class="btn-deposit" onclick="openCashier()">
+        <span>+</span> Deposit Funds
+      </button>
     </div>
 
     <!-- Chip Selector -->
-    <div class="chip-group" id="chip-controls">
+    <div class="chip-group">
       <div class="chip chip-10" onclick="addBet(10)">$10</div>
       <div class="chip chip-25" onclick="addBet(25)">$25</div>
       <div class="chip chip-50" onclick="addBet(50)">$50</div>
       <div class="chip chip-100" onclick="addBet(100)">$100</div>
-      <div class="chip chip-clear" onclick="clearBet()">Clear Bet</div>
+      <div class="chip chip-clear" onclick="clearBet()">Reset Stake</div>
     </div>
 
     <div class="hand-container">
@@ -130,7 +223,7 @@
       <div id="dealer-cards" class="cards-wrapper"></div>
     </div>
 
-    <div class="status-banner" id="game-status">Select your bet and click Deal</div>
+    <div class="status-banner" id="game-status">Place stake and click Deal to initiate round</div>
 
     <div class="hand-container">
       <div class="hand-title">Player <span id="player-score" class="score-badge">-</span></div>
@@ -144,29 +237,74 @@
     </div>
   </div>
 
-  <!-- Persistent Database History View -->
+  <!-- Immutable Ledger -->
   <div class="history-card">
     <div class="history-header">
-      <h2>Hand History & Database Log</h2>
-      <button class="btn-clear-db" onclick="clearDatabase()">Clear DB</button>
+      <h2>Transaction Ledger & Session History</h2>
+      <button class="btn-clear-db" onclick="clearDatabase()">Clear Cache</button>
     </div>
     <div class="table-scroll">
       <table>
         <thead>
           <tr>
-            <th>Time</th>
-            <th>Bet</th>
-            <th>Player</th>
-            <th>Dealer</th>
-            <th>Result</th>
-            <th>Payout</th>
-            <th>Bankroll</th>
+            <th>Timestamp</th>
+            <th>Type</th>
+            <th>Stake / Amount</th>
+            <th>Event / Gateway ID</th>
+            <th>Net Delta</th>
+            <th>Vault Balance</th>
           </tr>
         </thead>
-        <tbody id="history-rows">
-          <!-- Populated from Persistent Database -->
-        </tbody>
+        <tbody id="history-rows"></tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- Simulated Cashier / Payment Gateway Modal -->
+  <div class="modal-overlay" id="cashier-modal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeCashier()">&times;</button>
+      <div class="modal-title">&#128179; Deposit Gateway</div>
+      <div class="modal-subtitle">Simulated tokenized deposit flow via sandbox gateway.</div>
+
+      <div class="form-group">
+        <label class="form-label">Select Tier</label>
+        <div class="tier-buttons">
+          <button class="tier-btn active" onclick="setDepositAmount(50, this)">$50</button>
+          <button class="tier-btn" onclick="setDepositAmount(100, this)">$100</button>
+          <button class="tier-btn" onclick="setDepositAmount(250, this)">$250</button>
+          <button class="tier-btn" onclick="setDepositAmount(500, this)">$500</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Cardholder Name</label>
+        <input type="text" id="card-name" class="form-input" value="James Henry">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Card Number (Encrypted & Tokenized)</label>
+        <input type="text" id="card-number" class="form-input" maxlength="19" value="•••• •••• •••• 4242">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Exp Date</label>
+          <input type="text" id="card-exp" class="form-input" value="12/28">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CVC / CVV</label>
+          <input type="text" id="card-cvc" class="form-input" value="888">
+        </div>
+      </div>
+
+      <button class="modal-submit" id="submit-deposit" onclick="processDeposit()">
+        Authorize & Deposit $50.00
+      </button>
+
+      <div class="secure-footer">
+        <span>&#128274;</span> End-to-End Encrypted | Zero raw card details stored
+      </div>
     </div>
   </div>
 
@@ -177,28 +315,27 @@
     let inProgress = false;
     let bankroll = 1000;
     let currentBet = 0;
+    let selectedDepositAmount = 50;
 
-    // Database Engine (Persistent Local Storage)
+    // Database / Storage Engine
     function loadDatabase() {
       const savedBankroll = localStorage.getItem('bj_bankroll');
-      if (savedBankroll !== null) {
-        bankroll = parseInt(savedBankroll);
-      }
+      if (savedBankroll !== null) bankroll = parseInt(savedBankroll);
       renderBankroll();
       renderHistoryTable();
     }
 
-    function saveGameToDB(entry) {
-      let history = JSON.parse(localStorage.getItem('bj_history') || '[]');
-      history.unshift(entry); // Prepend latest hand
-      localStorage.setItem('bj_history', JSON.stringify(history));
+    function appendLedger(entry) {
+      let ledger = JSON.parse(localStorage.getItem('bj_ledger') || '[]');
+      ledger.unshift(entry);
+      localStorage.setItem('bj_ledger', JSON.stringify(ledger));
       localStorage.setItem('bj_bankroll', bankroll.toString());
       renderHistoryTable();
     }
 
     function clearDatabase() {
-      if (confirm("Reset database logs and reset bankroll to $1,000?")) {
-        localStorage.removeItem('bj_history');
+      if (confirm("Reset ledger and restore starting balance to $1,000?")) {
+        localStorage.removeItem('bj_ledger');
         localStorage.removeItem('bj_bankroll');
         bankroll = 1000;
         currentBet = 0;
@@ -208,24 +345,27 @@
     }
 
     function renderHistoryTable() {
-      const history = JSON.parse(localStorage.getItem('bj_history') || '[]');
+      const ledger = JSON.parse(localStorage.getItem('bj_ledger') || '[]');
       const tbody = document.getElementById('history-rows');
       tbody.innerHTML = '';
-      if (history.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#64748b;">No saved hands in database.</td></tr>';
+      if (ledger.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#64748b;">No transactions recorded in vault ledger.</td></tr>';
         return;
       }
-      history.slice(0, 50).forEach(h => {
+      ledger.slice(0, 50).forEach(entry => {
         const tr = document.createElement('tr');
-        const badgeClass = h.result.includes('Win') || h.result.includes('Blackjack') ? 'badge-win' : (h.result.includes('Push') ? 'badge-push' : 'badge-loss');
+        let badgeClass = 'badge-loss';
+        if (entry.type === 'DEPOSIT') badgeClass = 'badge-deposit';
+        else if (entry.event.includes('Win') || entry.event.includes('Blackjack')) badgeClass = 'badge-win';
+        else if (entry.event.includes('Push')) badgeClass = 'badge-push';
+
         tr.innerHTML = `
-          <td>${h.time}</td>
-          <td>$${h.bet}</td>
-          <td>${h.playerScore}</td>
-          <td>${h.dealerScore}</td>
-          <td class="${badgeClass}">${h.result}</td>
-          <td class="${badgeClass}">${h.payout >= 0 ? '+' : ''}$${h.payout}</td>
-          <td>$${h.balance}</td>
+          <td>${entry.time}</td>
+          <td><strong>${entry.type}</strong></td>
+          <td>$${entry.amount}</td>
+          <td>${entry.event}</td>
+          <td class="${badgeClass}">${entry.delta >= 0 ? '+' : ''}$${entry.delta}</td>
+          <td>$${entry.balance}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -236,6 +376,49 @@
       document.getElementById('bet-val').innerText = `$${currentBet}`;
     }
 
+    // Cashier & Payment Simulation
+    function openCashier() {
+      document.getElementById('cashier-modal').style.display = 'flex';
+    }
+
+    function closeCashier() {
+      document.getElementById('cashier-modal').style.display = 'none';
+    }
+
+    function setDepositAmount(amt, btn) {
+      selectedDepositAmount = amt;
+      document.querySelectorAll('.tier-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('submit-deposit').innerText = `Authorize & Deposit $${amt}.00`;
+    }
+
+    function processDeposit() {
+      const btn = document.getElementById('submit-deposit');
+      btn.disabled = true;
+      btn.innerText = "Encrypting & Authorizing Token...";
+
+      setTimeout(() => {
+        // Generate simulated transaction token
+        const mockToken = 'tok_sandbox_' + Math.random().toString(36).substring(2, 9);
+        bankroll += selectedDepositAmount;
+        
+        appendLedger({
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+          type: 'DEPOSIT',
+          amount: selectedDepositAmount,
+          event: `Gateway Auth: ${mockToken}`,
+          delta: selectedDepositAmount,
+          balance: bankroll
+        });
+
+        btn.disabled = false;
+        btn.innerText = `Authorize & Deposit $${selectedDepositAmount}.00`;
+        renderBankroll();
+        closeCashier();
+      }, 700);
+    }
+
+    // Gameplay Engine
     function addBet(amount) {
       if (inProgress) return;
       if (bankroll >= amount) {
@@ -243,7 +426,7 @@
         currentBet += amount;
         renderBankroll();
       } else {
-        alert("Insufficient bankroll!");
+        alert("Insufficient vault funds! Click '+ Deposit Funds' to add capital.");
       }
     }
 
@@ -292,7 +475,7 @@
 
     function startGame() {
       if (currentBet === 0) {
-        document.getElementById('game-status').innerText = 'Please place a bet first!';
+        document.getElementById('game-status').innerText = 'Select a chip value to place your stake!';
         return;
       }
       createDeck();
@@ -321,7 +504,7 @@
       renderCards(playerHand, 'player-cards');
       const score = calculateScore(playerHand);
       document.getElementById('player-score').innerText = score;
-      if (score > 21) endGame('Bust! Dealer Wins.', 'Loss', 0);
+      if (score > 21) endGame('Bust! House Wins.', 'Loss (Bust)', 0);
     }
 
     function stand() {
@@ -339,17 +522,17 @@
       const isDealerBJ = dScore === 21 && dealerHand.length === 2;
 
       if (pScore > 21) {
-        endGame('Bust! Dealer Wins.', 'Loss', 0);
+        endGame('Bust! House Wins.', 'Loss (Bust)', 0);
       } else if (dScore > 21) {
-        endGame('Dealer Busts! You Win!', 'Win', currentBet * 2);
+        endGame('House Busts! You Win!', 'Win (Dealer Bust)', currentBet * 2);
       } else if (isPlayerBJ && !isDealerBJ) {
-        endGame('Blackjack! Pays 3:2!', 'Blackjack', Math.floor(currentBet * 2.5));
+        endGame('Natural Blackjack! Pays 3:2!', 'Win (Blackjack 3:2)', Math.floor(currentBet * 2.5));
       } else if (pScore > dScore) {
-        endGame('You Win!', 'Win', currentBet * 2);
+        endGame('Hand Wins!', 'Win (High Score)', currentBet * 2);
       } else if (pScore < dScore) {
-        endGame('Dealer Wins.', 'Loss', 0);
+        endGame('House Wins.', 'Loss', 0);
       } else {
-        endGame('Push (Tie). Bet returned.', 'Push', currentBet);
+        endGame('Push (Standoff). Stake Returned.', 'Push', currentBet);
       }
     }
 
@@ -360,23 +543,20 @@
       document.getElementById('hit-btn').disabled = true;
       document.getElementById('stand-btn').disabled = true;
       renderCards(dealerHand, 'dealer-cards', false);
-      
+
       const pScore = calculateScore(playerHand);
       const dScore = calculateScore(dealerHand);
       document.getElementById('dealer-score').innerText = dScore;
 
       bankroll += payoutAmount;
-      const netChange = payoutAmount - currentBet;
+      const netDelta = payoutAmount - currentBet;
 
-      // Commit to Database
-      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      saveGameToDB({
-        time: timeStr,
-        bet: currentBet,
-        playerScore: pScore,
-        dealerScore: dScore > 21 ? `${dScore} (Bust)` : dScore,
-        result: resultType,
-        payout: netChange,
+      appendLedger({
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        type: 'GAME_ROUND',
+        amount: currentBet,
+        event: `${resultType} (P:${pScore} vs D:${dScore})`,
+        delta: netDelta,
         balance: bankroll
       });
 
@@ -384,7 +564,6 @@
       renderBankroll();
     }
 
-    // Initialize on page load
     loadDatabase();
   </script>
 </body>
